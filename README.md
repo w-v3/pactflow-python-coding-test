@@ -4,14 +4,6 @@ Welcome to this Python coding test. This test is designed to assess your ability
 to write clean, well-structured, and maintainable code. You will be tasked with
 adding some functionality to this codebase.
 
-## Documentation
-
-MkDocs is used to generate all the documentation, which can be viewed by running
-
-```console
-hatch run docs
-```
-
 ## Development
 
 This project uses [Hatch](https://hatch.pypa.io) for managing the development
@@ -35,8 +27,7 @@ pypacter/
 │  ├── tests/
 │  ├── pyproject.toml
 │  └── README.md
-├── docs/            <== MkDocs documentation
-├── notebooks/       <== Jupyter notebooks
+├── notebooks/       <== Jupyter notebooks (if any)
 ├── src/
 │  └── pypacter/     <== Core logic
 ├── tests/

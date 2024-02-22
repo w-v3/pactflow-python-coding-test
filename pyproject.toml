@@ -34,19 +34,10 @@ Issues        = "https://github.com/pactflow/pactflow-python-coding-test/issues"
 Source        = "https://github.com/pactflow/pactflow-python-coding-test"
 
 [project.optional-dependencies]
-devel-docs = [
-  "pathspec",
-  "mkdocs",
-  "mkdocs-gen-files",
-  "mkdocs-literate-nav",
-  "mkdocs-material",
-  "mkdocs-section-index",
-  "mkdocstrings[python]",
-]
 devel-test = ["pytest", "pytest-cov", "coverage[toml]"]
 devel-types = ["mypy==1.8.0", "pydantic~=1.0", "types-pyyaml", "types-pygments"]
 devel = [
-  "pypacter[devel-docs,devel-test,devel-types]",
+  "pypacter[devel-test,devel-types]",
   "pypacter-api[devel]",
   "pypacter-cli[devel]",
   "ruff==0.2.2",
@@ -94,11 +85,9 @@ pre-install-commands = [
 [tool.hatch.envs.default.scripts]
 lint       = "ruff check --show-source --show-fixes {args} src tests"
 typecheck  = "mypy src tests {args}"
-format     = "ruff format src tests docs {args}"
+format     = "ruff format src tests {args}"
 test       = "pytest tests/ {args}"
 all        = ["format", "lint", "typecheck", "test"]
-docs       = ["mkdocs serve {args}"]
-docs-build = ["mkdocs build {args}"]
 
 [tool.hatch.envs.test]
 features = ["devel"]
