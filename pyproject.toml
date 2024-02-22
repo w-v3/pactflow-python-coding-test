@@ -1,0 +1,184 @@
+################################################################################
+## Project Configuration
+################################################################################
+[project]
+name        = "pypacter"
+description = "A simple Python project for testing Python proficiency."
+dynamic     = ["version"]
+
+authors     = [{ name = "JP-Ellis", email = "josh@jpellis.me" }]
+maintainers = [{ name = "JP-Ellis", email = "josh@jpellis.me" }]
+
+readme = "README.md"
+license = { file = "LICENSE" }
+keywords = ["pactflow", "pypacter"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: Other/Proprietary License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Software Development :: Code Generators",
+]
+
+requires-python = "~=3.11.0"
+
+dependencies = ["langchain_openai~=0.0.0", "langchain~=0.1.0", "pyyaml~=6.0"]
+
+[project.urls]
+Documentation = "https://github.com/pactflow/pactflow-python-coding-test"
+Issues        = "https://github.com/pactflow/pactflow-python-coding-test/issues"
+Source        = "https://github.com/pactflow/pactflow-python-coding-test"
+
+[project.optional-dependencies]
+devel-docs = [
+  "pathspec",
+  "mkdocs",
+  "mkdocs-gen-files",
+  "mkdocs-literate-nav",
+  "mkdocs-material",
+  "mkdocs-section-index",
+  "mkdocstrings[python]",
+]
+devel-test = ["pytest", "pytest-cov", "coverage[toml]"]
+devel-types = ["mypy==1.8.0", "pydantic~=1.0", "types-pyyaml", "types-pygments"]
+devel = [
+  "pypacter[devel-docs,devel-test,devel-types]",
+  "pypacter-api[devel]",
+  "pypacter-cli[devel]",
+  "ruff==0.2.2",
+  "ipykernel",
+]
+
+################################################################################
+## Build System Configuration
+################################################################################
+[build-system]
+requires      = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/pypacter/__version__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  # Source
+  "/src/pypacter/**/*.py",
+  "/src/pypacter/**/*.pyi",
+  "/src/pypacter/py.typed",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["/src/pypacter"]
+include = [
+  # Source
+  "/src/pypacter/**/*.py",
+  "/src/pypacter/**/*.pyi",
+  "/src/pypacter/py.typed",
+]
+
+[tool.hatch.envs.default]
+python = "3.11"
+features = ["devel"]
+pre-install-commands = [
+  "pip install -q --disable-pip-version-check --no-deps --editable {root:uri}/pypacter-api[devel]",
+  "pip install -q --disable-pip-version-check --no-deps --editable {root:uri}/pypacter-cli[devel]",
+]
+
+[tool.hatch.envs.default.scripts]
+lint       = "ruff check --show-source --show-fixes {args} src tests"
+typecheck  = "mypy src tests {args}"
+format     = "ruff format src tests docs {args}"
+test       = "pytest tests/ {args}"
+all        = ["format", "lint", "typecheck", "test"]
+docs       = ["mkdocs serve {args}"]
+docs-build = ["mkdocs build {args}"]
+
+[tool.hatch.envs.test]
+features = ["devel"]
+pre-install-commands = [
+  "pip install -q --disable-pip-version-check --no-deps --editable {root:uri}/pypacter-api[devel]",
+  "pip install -q --disable-pip-version-check --no-deps --editable {root:uri}/pypacter-cli[devel]",
+]
+
+[[tool.hatch.envs.test.matrix]]
+python = ["3.11"]
+
+################################################################################
+## Ruff Configuration
+################################################################################
+
+[tool.ruff]
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["ALL"]
+
+ignore = [
+  "A001",   # Forbid assigning built-ins
+  "A002",   # Forbid shadowing built-ins
+  "ANN101", # `self` must be typed
+  "ANN102", # `cls` must be typed
+  "D200",   # Require single line docstrings to be on one line.
+  "D203",   # Require blank line before class docstring
+  "D212",   # Multi-line docstring summary must start at the first line
+  "FIX002", # Forbid TODO in comments
+  "RUF200", # Validate pyproject.toml (handled by Hatch)
+  "TD002",  # Assign someone to 'TODO' comments
+
+  # The following are disabled for compatibility with the formatter
+  "COM812", # enforce trailing commas
+  "ISC001", # require imports to be sorted
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pypacter", "pypacter_api", "pypacter_cli"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+preview = true
+
+################################################################################
+## PyTest Configuration
+################################################################################
+
+[tool.pytest.ini_options]
+addopts = [
+  "--import-mode=importlib",
+  "--cov-config=pyproject.toml",
+  "--cov-report=xml",
+]
+
+################################################################################
+## Mypy Configuration
+################################################################################
+
+[tool.mypy]
+plugins = "pydantic.mypy"
+
+################################################################################
+## Coverage Configuration
+################################################################################
+
+[tool.coverage.paths]
+pypacter = ["/src/pypacter"]
+tests    = ["tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "if __name__ == .__main__.:", # Ignore non-runnable code
+  "if TYPE_CHECKING:",          # Ignore typing
+  "raise NotImplementedError",  # Ignore defensive assertions
+  "@(abc\\.)?abstractmethod",   # Ignore abstract methods
+]
