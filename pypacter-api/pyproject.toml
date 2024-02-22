@@ -1,0 +1,163 @@
+################################################################################
+## Project Configuration
+################################################################################
+[project]
+name        = "pypacter-api"
+description = "API for PyPacter"
+dynamic     = ["version"]
+
+authors     = [{ name = "JP-Ellis", email = "josh@jpellis.me" }]
+maintainers = [{ name = "JP-Ellis", email = "josh@jpellis.me" }]
+
+readme = "README.md"
+license = { file = "LICENSE" }
+keywords = [
+  "pactflow",
+  "pypacter",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Framework :: FastAPI",
+  "Intended Audience :: Developers",
+  "License :: Other/Proprietary License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Software Development :: Code Generators",
+]
+
+requires-python = "~=3.11.0"
+
+dependencies = [
+  "fastapi~=0.0",
+  "multidict~=6.0",
+  "pypacter",
+]
+
+[project.urls]
+Documentation = "https://github.com/pactflow/pactflow-python-coding-test/tree/main/pypacter-api"
+Issues        = "https://github.com/pactflow/pactflow-python-coding-test/issues"
+Source        = "https://github.com/pactflow/pactflow-python-coding-test/tree/main/pypacter-api"
+
+[project.scripts]
+local-api = "pypacter_api:local"
+
+[project.optional-dependencies]
+devel-types = [
+  "mypy==1.8.0",
+  "pydantic~=1.0",
+]
+devel-test = ["pytest", "pytest-cov", "coverage[toml]", "uvicorn"]
+devel = ["pypacter-api[devel-types,devel-test]", "ruff==0.2.2"]
+
+################################################################################
+## Build System Configuration
+################################################################################
+[build-system]
+requires      = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+raw-options = { root = ".." }
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/pypacter_api/__version__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  # Source
+  "/src/pypacter_api/**/*.py",
+  "/src/pypacter_api/**/*.pyi",
+  "/src/pypacter_api/py.typed",
+  # Metadata
+  "/LICENSE",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["/src/pypacter_api"]
+include = [
+  # Source
+  "/src/pypacter_api/**/*.py",
+  "/src/pypacter_api/**/*.pyi",
+  "/src/pypacter_api/py.typed",
+]
+
+[tool.hatch.envs.default]
+features = ["devel"]
+pre-install-commands = [
+  "pip install -q --disable-pip-version-check --no-deps --editable {root:parent:uri}[devel]",
+]
+
+
+[tool.hatch.envs.default.scripts]
+# The update is necessary as we are not using editable installs
+lint      = "ruff check --show-source --show-fixes {args} src tests"
+typecheck = "mypy src tests {args}"
+format    = "ruff format src tests docs {args}"
+test      = "pytest tests/ {args}"
+all       = ["format", "lint", "typecheck", "test"]
+
+[tool.hatch.envs.test]
+features = ["devel"]
+pre-install-commands = [
+  "pip install -q --disable-pip-version-check --no-deps --editable {root:parent:uri}[devel]",
+]
+
+[[tool.hatch.envs.test.matrix]]
+python = ["3.11"]
+
+################################################################################
+## Ruff Configuration
+################################################################################
+
+[tool.ruff]
+extend         = "../pyproject.toml"
+target-version = "py38"
+
+[tool.ruff.format]
+preview = true
+
+################################################################################
+## PyTest Configuration
+################################################################################
+
+[tool.pytest.ini_options]
+addopts = [
+  "--import-mode=importlib",
+  "--cov-config=pyproject.toml",
+  "--cov-report=xml",
+]
+
+################################################################################
+## Mypy Configuration
+################################################################################
+
+[tool.mypy]
+plugins = "pydantic.mypy"
+
+################################################################################
+## Coverage Configuration
+################################################################################
+
+[tool.coverage.paths]
+pypacter_api = ["/src/pypacter_api"]
+tests      = ["tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "if __name__ == .__main__.:", # Ignore non-runnable code
+  "if TYPE_CHECKING:",          # Ignore typing
+  "raise NotImplementedError",  # Ignore defensive assertions
+  "@(abc\\.)?abstractmethod",   # Ignore abstract methods
+]
+
+################################################################################
+## CI Build Wheel
+################################################################################
+
+[tool.cibuildwheel]
+test-command = "pytest"
