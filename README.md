@@ -4,6 +4,27 @@ Welcome to this Python coding test. This test is designed to assess your ability
 to write clean, well-structured, and maintainable code. You will be tasked with
 adding some functionality to this codebase.
 
+We will be looking for the following aspects:
+
+1.  The readability and clarity of your code; including aspects such as:
+    -   Naming conventions
+    -   Code structure
+    -   Comments
+    -   Documentation
+2.  The correctness of your code; including aspects such as:
+    -   Handling of edge cases
+    -   Error handling
+    -   Testing
+3.  The maintainability of your code; including aspects such as:
+    -   Modularity
+    -   Extensibility
+    -   Reusability
+4.  Your familiarity with standard development tools and practices; including
+    aspects such as:
+    -   Version control
+    -   Creating and using virtual environments
+    -   Documenting PRs and commits
+
 ## Development
 
 This project uses [Hatch](https://hatch.pypa.io) for managing the development
@@ -38,6 +59,12 @@ pypacter/
 
 ## Tasks
 
+The following tasks purposefully leave out some specificity to allow you to
+demonstrate your problem-solving skills, and give you the opportunity to make
+decisions about the implementation.
+
+Each task should only take about 30 minutes to complete, and you should also allow 30 minutes to familiarize yourself with the codebase. If you find yourself spending more time on a task, submit what you have and document in the PR what you would have done if you had more time.
+
 ### Task 1
 
 #### Summary
@@ -53,7 +80,7 @@ Clients will be submitting code snippets to the API, and in order to improve the
 customer experience, we want to automatically detect the programming language
 instead of requiring the client to specify it.
 
-### Task 2
+### Task 2 (Nice to have, Optional)
 
 #### Summary
 
@@ -65,7 +92,7 @@ Another team is building a feature that requires the language detection
 functionality, and instead of duplicating the work, they have asked us to
 expose the functionality via a new API endpoint.
 
-### Task 3
+### Task 3 (Optional)
 
 #### Summary
 
