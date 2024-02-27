@@ -29,7 +29,7 @@ classifiers = [
   "Topic :: Software Development :: Code Generators",
 ]
 
-requires-python = "~=3.11.0"
+requires-python = ">=3.8"
 
 dependencies = [
   "fastapi~=0.0",
@@ -97,7 +97,7 @@ pre-install-commands = [
 # The update is necessary as we are not using editable installs
 lint      = "ruff check --show-source --show-fixes {args} src tests"
 typecheck = "mypy src tests {args}"
-format    = "ruff format src tests docs {args}"
+format    = "ruff format src tests {args}"
 test      = "pytest tests/ {args}"
 all       = ["format", "lint", "typecheck", "test"]
 
@@ -108,7 +108,7 @@ pre-install-commands = [
 ]
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.11"]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
 ################################################################################
 ## Ruff Configuration
