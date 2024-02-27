@@ -25,6 +25,10 @@ We will be looking for the following aspects:
     -   Creating and using virtual environments
     -   Documenting PRs and commits
 
+Please fork this repository and submit your solution as a pull request. Your
+solution should pass the existing CI checks, and you should ensure that your
+code is tested. This project uses the [pytest](https://docs.pytest.org/en/stable/) testing framework.
+
 ## Development
 
 This project uses [Hatch](https://hatch.pypa.io) for managing the development
@@ -74,13 +78,15 @@ Add a new function to the core package to:
 -   Ingest a snippet of code
 -   Output the most likely programming language
 
+Ideally, this function should make use of a large language model (LLM) to detect the language, but you can use any method you prefer.
+
 #### Motivation
 
 Clients will be submitting code snippets to the API, and in order to improve the
 customer experience, we want to automatically detect the programming language
 instead of requiring the client to specify it.
 
-### Task 2 (Nice to have, Optional)
+### Task 2
 
 #### Summary
 
@@ -92,7 +98,7 @@ Another team is building a feature that requires the language detection
 functionality, and instead of duplicating the work, they have asked us to
 expose the functionality via a new API endpoint.
 
-### Task 3 (Optional)
+### Task 3
 
 #### Summary
 
