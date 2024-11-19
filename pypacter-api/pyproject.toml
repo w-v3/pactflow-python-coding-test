@@ -24,12 +24,12 @@ classifiers = [
   "Natural Language :: English",
   "Operating System :: OS Independent",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: Implementation :: CPython",
   "Topic :: Software Development :: Code Generators",
 ]
 
-requires-python = ">=3.8"
+requires-python = ">=3.13"
 
 dependencies = [
   "fastapi~=0.0",
@@ -67,48 +67,27 @@ raw-options = { root = ".." }
 [tool.hatch.build.hooks.vcs]
 version-file = "src/pypacter_api/__version__.py"
 
-[tool.hatch.build.targets.sdist]
-include = [
-  # Source
-  "/src/pypacter_api/**/*.py",
-  "/src/pypacter_api/**/*.pyi",
-  "/src/pypacter_api/py.typed",
-  # Metadata
-  "/LICENSE",
-]
-
-[tool.hatch.build.targets.wheel]
-packages = ["/src/pypacter_api"]
-include = [
-  # Source
-  "/src/pypacter_api/**/*.py",
-  "/src/pypacter_api/**/*.pyi",
-  "/src/pypacter_api/py.typed",
-]
-
 [tool.hatch.envs.default]
+installer = "uv"
 features = ["devel"]
-pre-install-commands = [
-  "pip install -q --disable-pip-version-check --no-deps --editable {root:parent:uri}[devel]",
-]
+# This is require to get around an incompatibility between hatch and uv
+# See: https://github.com/pypa/hatch/issues/1639
+pre-install-commands = ["uv pip install .[devel]"]
 
 
 [tool.hatch.envs.default.scripts]
-# The update is necessary as we are not using editable installs
-lint      = "ruff check --show-source --show-fixes {args} src tests"
-typecheck = "mypy src tests {args}"
-format    = "ruff format src tests {args}"
-test      = "pytest tests/ {args}"
-all       = ["format", "lint", "typecheck", "test"]
+lint       = "ruff check --output-format full --show-fixes {args} src tests"
+typecheck  = "mypy . {args}"
+format     = "ruff format . {args}"
+test       = "pytest tests/ {args}"
+all        = ["format", "lint", "typecheck", "test"]
 
 [tool.hatch.envs.test]
+installer = "uv"
 features = ["devel"]
-pre-install-commands = [
-  "pip install -q --disable-pip-version-check --no-deps --editable {root:parent:uri}[devel]",
-]
-
-[[tool.hatch.envs.test.matrix]]
-python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+# This is require to get around an incompatibility between hatch and uv
+# See: https://github.com/pypa/hatch/issues/1639
+pre-install-commands = ["uv pip install .[devel-test]"]
 
 ################################################################################
 ## Ruff Configuration
@@ -116,7 +95,6 @@ python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
 [tool.ruff]
 extend         = "../pyproject.toml"
-target-version = "py38"
 
 [tool.ruff.format]
 preview = true
@@ -144,7 +122,7 @@ plugins = "pydantic.mypy"
 ################################################################################
 
 [tool.coverage.paths]
-pypacter_api = ["/src/pypacter_api"]
+pypacter_api = ["src/pypacter_api"]
 tests      = ["tests"]
 
 [tool.coverage.report]
@@ -154,10 +132,3 @@ exclude_lines = [
   "raise NotImplementedError",  # Ignore defensive assertions
   "@(abc\\.)?abstractmethod",   # Ignore abstract methods
 ]
-
-################################################################################
-## CI Build Wheel
-################################################################################
-
-[tool.cibuildwheel]
-test-command = "pytest"
