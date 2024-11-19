@@ -7,6 +7,7 @@ any issues with the code.
 
 import typing
 from pathlib import Path
+from typing import Any
 
 from langchain.output_parsers import PydanticOutputParser
 from langchain_core.prompts import (
@@ -76,7 +77,9 @@ class Reviewer(Runnable[Input, Recommendations]):
         """
         Instantiates a new code reviewer.
         """
-        parser = PydanticOutputParser(pydantic_object=Recommendations)
+        parser: PydanticOutputParser[Recommendations] = PydanticOutputParser(
+            pydantic_object=Recommendations
+        )
         self.prompt_template = (
             INSTRUCTIONS.format(format_instructions=parser.get_format_instructions())
             + CODE_TEMPLATE
@@ -104,13 +107,19 @@ class Reviewer(Runnable[Input, Recommendations]):
         self,
         input: Input | dict[str, str],
         config: RunnableConfig | None = None,
+        **kwargs: Any,  # noqa: ANN401, ARG002
     ) -> Recommendations:
         """
         Perform the code review.
 
         Args:
-            input: The HTTP request-response pair.
-            config: An optional configuration for the LLM.
+            input:
+                The HTTP request-response pair.
+            config:
+                An optional configuration for the LLM.
+            kwargs:
+                Additional arguments. These are required by the parent class,
+                but are not used in this method.
 
         Returns:
             The generated code snippet.
@@ -118,4 +127,4 @@ class Reviewer(Runnable[Input, Recommendations]):
         if isinstance(input, dict):
             input = Input(**input)
 
-        return self.chain.invoke(input.dict(), config=config)
+        return self.chain.invoke(input.model_dump(), config=config)
