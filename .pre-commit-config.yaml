@@ -1,3 +1,4 @@
+---
 default_install_hook_types:
   - commit-msg
   - pre-commit
@@ -10,7 +11,7 @@ default_stages:
 repos:
   # Generic hooks that apply to a lot of files
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       - id: check-added-large-files
       - id: check-case-conflict
@@ -26,7 +27,11 @@ repos:
       # modify the formatting.
       - id: check-toml
       - id: check-xml
-      - id: check-yaml
+
+  - repo: https://github.com/lyz-code/yamlfix/
+    rev: 1.17.0
+    hooks:
+      - id: yamlfix
 
   - repo: https://gitlab.com/bmares/check-json5
     rev: v1.0.0
@@ -35,27 +40,26 @@ repos:
       # allows for comments within JSON files.
       - id: check-json5
 
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.1.0
+  - repo: https://github.com/biomejs/pre-commit
+    rev: v0.5.0
     hooks:
-      - id: prettier
-        exclude: |
-          (?x)^(
-            src/pypacter/.*\.md
-          )$
+      - id: biome-check
+        additional_dependencies:
+          - '@biomejs/biome@1.9.4'
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.2.2
     hooks:
       - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
+        args:
+          - --fix
+          - --exit-non-zero-on-fix
       - id: ruff-format
 
-  - repo: https://github.com/commitizen-tools/commitizen
-    rev: v3.31.0
+  - repo: https://github.com/crate-ci/committed
+    rev: v1.1.1
     hooks:
-      - id: commitizen
-        stages: [commit-msg]
+      - id: committed
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.42.0
@@ -66,6 +70,23 @@ repos:
             src/pypacter/.*\.md
           )
 
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.27.3
+    hooks:
+      - id: typos
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        args:
+          - --external-sources
+
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: v3.9.0-1
+    hooks:
+      - id: shfmt
+
   - repo: local
     hooks:
       # Mypy is difficult to run in pre-commit's isolated environment as it
@@ -74,5 +95,7 @@ repos:
         name: mypy
         entry: hatch run mypy
         language: system
-        types: [python]
-        stages: [pre-push]
+        types:
+          - python
+        stages:
+          - pre-push

@@ -19,12 +19,13 @@ classifiers = [
   "Natural Language :: English",
   "Operating System :: OS Independent",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: Implementation :: CPython",
   "Topic :: Software Development :: Code Generators",
 ]
 
-requires-python = ">=3.8"
+requires-python = ">=3.12"
 
 dependencies = ["langchain_openai~=0.0.0", "langchain~=0.3.7", "pyyaml~=6.0"]
 
@@ -56,54 +57,46 @@ source = "vcs"
 [tool.hatch.build.hooks.vcs]
 version-file = "src/pypacter/__version__.py"
 
-[tool.hatch.build.targets.sdist]
-include = [
-  # Source
-  "/src/pypacter/**/*.py",
-  "/src/pypacter/**/*.pyi",
-  "/src/pypacter/py.typed",
-]
-
-[tool.hatch.build.targets.wheel]
-packages = ["/src/pypacter"]
-include = [
-  # Source
-  "/src/pypacter/**/*.py",
-  "/src/pypacter/**/*.pyi",
-  "/src/pypacter/py.typed",
-]
-
 [tool.hatch.envs.default]
 installer = "uv"
-python = "3.12"
 features = ["devel"]
-pre-install-commands = [
-  "pip install -q --disable-pip-version-check --no-deps --editable {root:uri}/pypacter-api[devel]",
-]
+# This is require to get around an incompatibility between hatch and uv
+# See: https://github.com/pypa/hatch/issues/1639
+pre-install-commands = ["uv pip install .[devel]"]
 
 [tool.hatch.envs.default.scripts]
-lint       = "ruff check --show-source --show-fixes {args} src tests"
-typecheck  = "mypy src tests {args}"
-format     = "ruff format src tests {args}"
+lint       = "ruff check --output-format full --show-fixes {args} src tests"
+typecheck  = "mypy . {args}"
+format     = "ruff format . {args}"
 test       = "pytest tests/ {args}"
+test-all   = "pytest tests/ pypacter-api/tests/ {args}"
 all        = ["format", "lint", "typecheck", "test"]
 
 [tool.hatch.envs.test]
 installer = "uv"
 features = ["devel"]
-pre-install-commands = [
-  "pip install -q --disable-pip-version-check --no-deps --editable {root:uri}/pypacter-api[devel]",
-]
+# This is require to get around an incompatibility between hatch and uv
+# See: https://github.com/pypa/hatch/issues/1639
+pre-install-commands = ["uv pip install .[devel-test]"]
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.9", "3.10", "3.11", "3.12", "3.13"]
+python = ["3.12", "3.13"]
+
+################################################################################
+## UV Configuration
+################################################################################
+[tool.uv.workspace]
+members = ["pypacter-api"]
+
+[tool.uv.sources]
+pypacter     = { workspace = true }
+pypacter-api = { workspace = true }
 
 ################################################################################
 ## Ruff Configuration
 ################################################################################
 
 [tool.ruff]
-target-version = "py311"
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -130,6 +123,13 @@ known-first-party = ["pypacter", "pypacter_api"]
 
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
+banned-module-level-imports = [
+  # Use Pydantic V2 instead
+  "pydantic.v1",
+]
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"pydantic.v1".msg = "Use Pydantic V2 instead"
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
@@ -147,6 +147,7 @@ addopts = [
   "--cov-config=pyproject.toml",
   "--cov-report=xml",
 ]
+asyncio_default_fixture_loop_scope = "function"
 
 ################################################################################
 ## Mypy Configuration
@@ -160,7 +161,7 @@ plugins = "pydantic.mypy"
 ################################################################################
 
 [tool.coverage.paths]
-pypacter = ["/src/pypacter"]
+pypacter = ["src/pypacter"]
 tests    = ["tests"]
 
 [tool.coverage.report]
@@ -170,3 +171,19 @@ exclude_lines = [
   "raise NotImplementedError",  # Ignore defensive assertions
   "@(abc\\.)?abstractmethod",   # Ignore abstract methods
 ]
+
+################################################################################
+## Typos
+################################################################################
+
+[tool.typos.default]
+extend-ignore-re = ["(?Rm)^.*(#|//)\\s*spellchecker:ignore$"]
+
+################################################################################
+## Yamlfix
+################################################################################
+[tool.yamlfix]
+line_length = 100
+whitelines = 1
+section_whitelines = 1
+sequence_style = "block_style"

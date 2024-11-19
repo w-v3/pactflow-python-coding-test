@@ -1,0 +1,22 @@
+## Configuration for committed
+##
+## See <https://github.com/crate-ci/committed/blob/master/docs/reference.md>
+allowed_types = [
+  "fix",
+  "feat",
+  "chore",
+  "docs",
+  "style",
+  "refactor",
+  "perf",
+  "test",
+  "release",
+]
+
+line_length         = 80
+merge_commit        = false
+no_fixup            = false
+style               = "conventional"
+subject_capitalized = false
+
+ignore_author_re    = "(?i)dependabot|renovate(( |-)bot)?"
