@@ -19,13 +19,12 @@ classifiers = [
   "Natural Language :: English",
   "Operating System :: OS Independent",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: Implementation :: CPython",
   "Topic :: Software Development :: Code Generators",
 ]
 
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 
 dependencies = ["langchain_openai~=0.2.9", "langchain~=0.3.7", "pyyaml~=6.0"]
 
@@ -78,9 +77,6 @@ features = ["devel"]
 # This is require to get around an incompatibility between hatch and uv
 # See: https://github.com/pypa/hatch/issues/1639
 pre-install-commands = ["uv pip install .[devel-test]"]
-
-[[tool.hatch.envs.test.matrix]]
-python = ["3.12", "3.13"]
 
 ################################################################################
 ## UV Configuration
