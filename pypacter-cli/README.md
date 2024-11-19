@@ -1,1 +1,0 @@
-# PyPacter CLI

@@ -1,9 +1,5 @@
 {
-  "python.testing.pytestArgs": [
-    "tests",
-    "pypacter-api/tests",
-    "pypacter-cli/tests"
-  ],
+  "python.testing.pytestArgs": ["tests", "pypacter-api/tests"],
   "python.testing.pytestEnabled": true,
   "python.testing.unittestEnabled": false,
   "ruff.importStrategy": "fromEnvironment"

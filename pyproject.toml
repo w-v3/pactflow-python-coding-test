@@ -39,7 +39,6 @@ devel-types = ["mypy==1.8.0", "pydantic~=1.0", "types-pyyaml", "types-pygments"]
 devel = [
   "pypacter[devel-test,devel-types]",
   "pypacter-api[devel]",
-  "pypacter-cli[devel]",
   "ruff==0.2.2",
   "ipykernel",
 ]
@@ -75,11 +74,11 @@ include = [
 ]
 
 [tool.hatch.envs.default]
-python = "3.11"
+installer = "uv"
+python = "3.12"
 features = ["devel"]
 pre-install-commands = [
   "pip install -q --disable-pip-version-check --no-deps --editable {root:uri}/pypacter-api[devel]",
-  "pip install -q --disable-pip-version-check --no-deps --editable {root:uri}/pypacter-cli[devel]",
 ]
 
 [tool.hatch.envs.default.scripts]
@@ -90,14 +89,14 @@ test       = "pytest tests/ {args}"
 all        = ["format", "lint", "typecheck", "test"]
 
 [tool.hatch.envs.test]
+installer = "uv"
 features = ["devel"]
 pre-install-commands = [
   "pip install -q --disable-pip-version-check --no-deps --editable {root:uri}/pypacter-api[devel]",
-  "pip install -q --disable-pip-version-check --no-deps --editable {root:uri}/pypacter-cli[devel]",
 ]
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+python = ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
 ################################################################################
 ## Ruff Configuration
@@ -127,7 +126,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["pypacter", "pypacter_api", "pypacter_cli"]
+known-first-party = ["pypacter", "pypacter_api"]
 
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"

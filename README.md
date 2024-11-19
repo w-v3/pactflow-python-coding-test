@@ -32,11 +32,10 @@ code is tested. This project uses the [pytest](https://docs.pytest.org/en/stable
 ## Development
 
 This project uses [Hatch](https://hatch.pypa.io) for managing the development
-environment. The code is split across three packages:
+environment. The code is split across two packages:
 
 -   `pypacter`: The core logic
 -   `pypacter-api`: API wrapper
--   `pypacter-cli`: CLI to interact with the API
 
 The structure of the project is as follows:
 
@@ -47,16 +46,10 @@ pypacter/
 │  ├── tests/
 │  ├── pyproject.toml
 │  └── README.md
-├── pypacter-cli/     <== CLI to interact with API
-│  ├── src/pypacter_cli/
-│  ├── tests/
-│  ├── pyproject.toml
-│  └── README.md
 ├── notebooks/       <== Jupyter notebooks (if any)
 ├── src/
 │  └── pypacter/     <== Core logic
 ├── tests/
-├── mkdocs.yml
 ├── pyproject.toml
 └── README.md
 ```
