@@ -35,7 +35,7 @@ Source        = "https://github.com/pactflow/pactflow-python-coding-test"
 
 [project.optional-dependencies]
 devel-test = ["pytest", "pytest-cov", "coverage[toml]"]
-devel-types = ["mypy==1.8.0", "pydantic~=1.0", "types-pyyaml", "types-pygments"]
+devel-types = ["mypy==1.13.0", "pydantic~=1.0", "types-pyyaml", "types-pygments"]
 devel = [
   "pypacter[devel-test,devel-types]",
   "pypacter-api[devel]",
