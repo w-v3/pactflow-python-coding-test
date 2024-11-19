@@ -48,7 +48,7 @@ local-api = "pypacter_api:local"
 [project.optional-dependencies]
 devel-types = [
   "mypy==1.13.0",
-  "pydantic~=1.0",
+  "pydantic~=2.9",
 ]
 devel-test = ["pytest", "pytest-cov", "coverage[toml]", "uvicorn"]
 devel = ["pypacter-api[devel-types,devel-test]", "ruff==0.7.4"]
