@@ -65,7 +65,7 @@ jobs:
           - {os: ubuntu-latest, d: pypacter-api}
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           submodules: true
 
@@ -103,7 +103,7 @@ jobs:
           - {os: ubuntu-latest, d: pypacter-api}
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           submodules: true
 
@@ -141,7 +141,7 @@ jobs:
           - {os: ubuntu-latest, d: pypacter-api}
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           submodules: true
 
@@ -179,7 +179,7 @@ jobs:
           - {os: ubuntu-latest, d: pypacter-api}
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-tags: true
 
@@ -209,10 +209,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Spell Check Repo
-        uses: crate-ci/typos@master
+        uses: crate-ci/typos@b74202f74b4346efdbce7801d187ec57b266bac8  # v1.27.3
 
   pre-commit:
     name: Pre-commit
@@ -223,11 +223,11 @@ jobs:
       PRE_COMMIT_HOME: ${{ github.workspace }}/.pre-commit
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       # Cache PRE_COMMIT_HOME
       - name: Cache pre-commit
-        uses: actions/cache@v4
+        uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a  # v4.2.2
         with:
           path: |
             ${{ env.PRE_COMMIT_HOME }}
@@ -241,7 +241,7 @@ jobs:
           components: rustfmt, clippy
 
       - name: Run pre-commit
-        uses: pre-commit/action@v3.0.1
+        uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd  # v3.0.1
 
   committed:
     name: Committed
@@ -249,7 +249,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
 
