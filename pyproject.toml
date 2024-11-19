@@ -27,7 +27,7 @@ classifiers = [
 
 requires-python = ">=3.12"
 
-dependencies = ["langchain_openai~=0.0.0", "langchain~=0.3.7", "pyyaml~=6.0"]
+dependencies = ["langchain_openai~=0.2.9", "langchain~=0.3.7", "pyyaml~=6.0"]
 
 [project.urls]
 Documentation = "https://github.com/pactflow/pactflow-python-coding-test"
