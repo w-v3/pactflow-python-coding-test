@@ -1,8 +1,6 @@
 # PactFlow Python Coding Test
 
-Welcome to this Python coding test. This test is designed to assess your ability
-to write clean, well-structured, and maintainable code. You will be tasked with
-adding some functionality to this codebase.
+Welcome to this Python coding test. This test is designed to assess your ability to write clean, well-structured, and maintainable code. You will be tasked with adding some functionality to this codebase.
 
 We will be looking for the following aspects:
 
@@ -19,20 +17,16 @@ We will be looking for the following aspects:
     -   Modularity
     -   Extensibility
     -   Reusability
-4.  Your familiarity with standard development tools and practices; including
-    aspects such as:
+4.  Your familiarity with standard development tools and practices; including aspects such as:
     -   Version control
     -   Creating and using virtual environments
     -   Documenting PRs and commits
 
-Please fork this repository and submit your solution as a pull request. Your
-solution should pass the existing CI checks, and you should ensure that your
-code is tested. This project uses the [pytest](https://docs.pytest.org/en/stable/) testing framework.
+Please fork this repository and submit your solution as a pull request. Your solution should pass the existing CI checks, and you should ensure that your code is tested. This project uses the [pytest](https://docs.pytest.org/en/stable/) testing framework.
 
 ## Development
 
-This project uses [Hatch](https://hatch.pypa.io) for managing the development
-environment. The code is split across two packages:
+This project uses [Hatch](https://hatch.pypa.io) for managing the development environment. The code is split across two packages:
 
 -   `pypacter`: The core logic
 -   `pypacter-api`: API wrapper
@@ -56,9 +50,7 @@ pypacter/
 
 ## Tasks
 
-The following tasks purposefully leave out some specificity to allow you to
-demonstrate your problem-solving skills, and give you the opportunity to make
-decisions about the implementation.
+The following tasks purposefully leave out some specificity to allow you to demonstrate your problem-solving skills, and give you the opportunity to make decisions about the implementation.
 
 Each task should only take about 30 minutes to complete, and you should also allow 30 minutes to familiarize yourself with the codebase. If you find yourself spending more time on a task, submit what you have and document in the PR what you would have done if you had more time.
 
@@ -75,33 +67,27 @@ Ideally, this function should make use of a large language model (LLM) to detect
 
 #### Motivation
 
-Clients will be submitting code snippets to the API, and in order to improve the
-customer experience, we want to automatically detect the programming language
-instead of requiring the client to specify it.
+Clients will be submitting code snippets to the API, and in order to improve the customer experience, we want to automatically detect the programming language instead of requiring the client to specify it.
 
 ### Task 2
 
 #### Summary
 
-Add a new API endpoint for the language detection function.
+Add a new endpoint to the existing API which exposes the language detection functionality.
 
 #### Motivation
 
-Another team is building a feature that requires the language detection
-functionality, and instead of duplicating the work, they have asked us to
-expose the functionality via a new API endpoint.
+This is unlikely to be useful in isolation, but we expect to use this functionality in the future to enhance other functionality.
 
 ### Task 3
 
 #### Summary
 
-Add a new CLI command for the language detection function. The CLI should
-accept the code snippet either as a file path, or through standard input.
+Integrate the language-detection ability with the existing `reviewer` functionality for code reviews
 
 #### Motivation
 
-The CLI is the primary way that developers interact with the API, and we want to
-make sure that the new functionality is easily accessible.
+Enhancing the `reviewer` functionality with language detection will hopefully improve the accuracy and relevance of the code reviews, providing a better experience for the users.
 
 ### Task 4 (Optional)
 
