@@ -1,0 +1,16 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:best-practices"],
+  "pre-commit": {
+    "enabled": true
+  },
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
+  "packageRules": [
+    {
+      "groupName": "Ruff",
+      "groupSlug": "ruff",
+      "matchPackageNames": ["astral-sh/ruff-pre-commit", "ruff"]
+    }
+  ]
+}
