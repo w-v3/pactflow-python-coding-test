@@ -14,13 +14,13 @@ from fastapi import FastAPI
 from pypacter_api.__version__ import __version__, __version_tuple__
 
 __all__ = [
+    "__author__",
+    "__copyright__",
+    "__email__",
+    "__license__",
+    "__url__",
     "__version__",
     "__version_tuple__",
-    "__author__",
-    "__email__",
-    "__url__",
-    "__license__",
-    "__copyright__",
     "get_version",
     "local",
 ]

@@ -9,8 +9,8 @@ import os
 from langchain_openai import ChatOpenAI
 
 __all__ = [
-    "GPT_4",
     "DEFAULT_MODEL",
+    "GPT_4",
 ]
 
 TEMPERATURE = float(os.getenv("MODEL_TEMPERATURE", "0"))

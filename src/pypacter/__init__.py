@@ -13,11 +13,11 @@ __license__ = "Proprietary"
 __copyright__ = "SmartBear Software and PactFlow"
 
 __all__ = [
+    "__author__",
+    "__copyright__",
+    "__email__",
+    "__license__",
+    "__url__",
     "__version__",
     "__version_tuple__",
-    "__author__",
-    "__email__",
-    "__url__",
-    "__license__",
-    "__copyright__",
 ]
