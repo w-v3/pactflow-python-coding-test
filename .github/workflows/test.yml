@@ -255,4 +255,4 @@ jobs:
           fetch-depth: 0
 
       - name: committed-action
-        uses: crate-ci/committed@608423fab72842b4be0be432ca0591337fc85698  # v1.1.1
+        uses: crate-ci/committed@8ac2dfd223ba5e6252409440ba5a37671b2e99b8  # v1.1.2
