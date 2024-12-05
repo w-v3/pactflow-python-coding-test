@@ -39,7 +39,7 @@ devel-types = ["mypy==1.13.0", "pydantic~=2.9", "types-pyyaml", "types-pygments"
 devel = [
   "pypacter[devel-test,devel-types]",
   "pypacter-api[devel]",
-  "ruff==0.8.1",
+  "ruff==0.8.2",
   "ipykernel",
 ]
 
