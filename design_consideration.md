@@ -17,6 +17,10 @@ The approach utilizes a structured methodology combining prompt engineering, LLM
 Added a small preprocessing method whose functionality can be extended as per requirements. As Currently there were no complex preprocessing requirements it was implmented only as function, though it is important to keep in mind that this can be changed in future wherein a separate runnable can be implemented and added to the current chain for preprocessing the input.   
 error handling is implemented in the invoke method to manage exceptions, ensuring the system gracefully handles unexpected failures. If an error occurs, a fallback output is provided with a message indicating the issue.
 
+Another important 
+
+Along with this unit testing was also implemented for all modules.
+
 ### Task 2
 
 #### Summary
@@ -36,9 +40,10 @@ Integrate the language-detection ability with the existing `reviewer` functional
 #### Solution Approach
 
 To integrate the Language Detector class with the Reviewer class, the Reviewer class was modified to include language detection as part of its workflow. 
-This integration ensures that the code snippet is first analyzed for its programming language and then reviewed accordingly. This enhancement will make the code review process more context-aware by tailoring feedback based on the detected language. 
+This integration ensures that the code snippet is first analyzed for its programming language and then reviewed accordingly. This enhancement will make the code review process more context-aware by tailoring feedback based on the detected language.
 
-Along with this unit testing was also implemented for all modules 
+There was a also an interesting trade off here; use of Runnables and RunnableSequence for creating the classes for detection and code review. whereas language detection module works best being defined as a runnable component as it is a stand alone component.
+But as the functionality of code review class increases further adding new features such as Code Annotations , Code Commenting and/or code refactoring it may make more sense for code reviewer class to be implemented as a runnable sequence to seamlessly integrate added features.
 
 ### Task 4 (Optional)
 
