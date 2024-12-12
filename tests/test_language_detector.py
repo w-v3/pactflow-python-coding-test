@@ -22,6 +22,7 @@ def mock_chain() -> MagicMock:
     """Mock the chain to control its behavior in the full invocation."""
     return MagicMock(spec=RunnableSerializable)
 
+
 @pytest.fixture
 def language_detector(mock_model: MagicMock, mock_chain: MagicMock) -> LanguageDetector:
     """Instantiate a LanguageDetector with a mocked model."""
@@ -31,7 +32,7 @@ def language_detector(mock_model: MagicMock, mock_chain: MagicMock) -> LanguageD
 
 
 def test_single_language_detection_success(
-    language_detector: LanguageDetector, mock_chain: MagicMock, mock_model: MagicMock
+    language_detector: LanguageDetector, mock_chain: MagicMock
 ) -> None:
     """Test successful language detection."""
     # Arrange
@@ -54,7 +55,8 @@ def test_single_language_detection_success(
 
 
 def test_no_language_detection(
-    language_detector: LanguageDetector, mock_chain: MagicMock, mock_model: MagicMock
+    language_detector: LanguageDetector,
+    mock_chain: MagicMock,
 ) -> None:
     """Testing successful language detection."""
     # Arrange
@@ -75,7 +77,7 @@ def test_no_language_detection(
 
 
 def test_multiple_language_detection_success(
-    language_detector: LanguageDetector, mock_chain: MagicMock, mock_model: MagicMock
+    language_detector: LanguageDetector, mock_chain: MagicMock
 ) -> None:
     """Test successful language detection."""
     # Arrange
@@ -96,9 +98,11 @@ def test_multiple_language_detection_success(
 
 
 def test_language_chain_error(
-    language_detector: LanguageDetector, mock_chain: MagicMock, mock_model: MagicMock
+    language_detector: LanguageDetector, mock_chain: MagicMock
 ) -> None:
-    """Test language detection failure due to error in while invoking chain"""
+    """
+    Test language detection failure due to error in while invoking chain.
+    """
     # Arrange
     mock_chain.invoke.side_effect = Exception("Model error")
     input_data = LanguageDetectionInput(code="print('Hello, World!')")
@@ -114,7 +118,7 @@ def test_language_chain_error(
     mock_chain.invoke.assert_called_once()
 
 
-def test_language_detection_preprocessing(language_detector: LanguageDetector, mock_model: MagicMock) -> None:
+def test_language_detection_preprocessing(language_detector: LanguageDetector) -> None:
     """Test preprocessing of the code snippet before detection."""
     # Arrange
     input_data = LanguageDetectionInput(code="   print('Hello, World!')   ")
@@ -137,7 +141,7 @@ def test_invalid_input() -> None:
 
 
 def test_empty_input(
-    language_detector: LanguageDetector, mock_model: MagicMock, mock_chain: MagicMock
+    language_detector: LanguageDetector, mock_chain: MagicMock
 ) -> None:
     """Test handling of empty code snippet."""
     # Arrange
@@ -151,7 +155,6 @@ def test_empty_input(
 
     # Act
     output = language_detector.invoke(input_data)
-    print(output)
 
     # Assert
     assert output.language == "unknown"

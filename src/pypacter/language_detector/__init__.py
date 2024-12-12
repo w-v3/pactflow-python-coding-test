@@ -1,3 +1,10 @@
+"""
+Language Detector Class.
+
+Takes in code snippet as an input and return the detected language.
+
+"""
+
 import typing
 from pathlib import Path
 from typing import Any

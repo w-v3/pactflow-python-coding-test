@@ -6,7 +6,11 @@ Collection of LLMs (large language models) that have been pre-configured.
 
 import os
 
+from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
+
+# Load environment variables from .env file
+load_dotenv()
 
 __all__ = [
     "DEFAULT_MODEL",

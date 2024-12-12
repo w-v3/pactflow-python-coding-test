@@ -1,15 +1,18 @@
-import logging
+"""
+Main EntryPoint for deployment of uvicorn server.
+"""
 import os
 
 import uvicorn
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from pypacter_api.__version__ import __version__
 from pypacter_api.base import router as api_router
 
-# Set up logger
-logger = logging.getLogger(__name__)
+# Load environment variables from .env file
+load_dotenv()
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -36,7 +39,6 @@ app.include_router(api_router, prefix="/api/v1")  # Prefix for API routes (versi
 
 def main() -> None:
     """
-
     Run the FastAPI app with uvicorn.
     This function will be called when the script is executed directly.
     """

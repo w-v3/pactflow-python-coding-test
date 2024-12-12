@@ -82,7 +82,7 @@ class Recommendations(BaseModel):
 
 class Reviewer(Runnable[LanguageDetectionInput, Recommendations]):
     """
-    Code reviewer class
+    Code reviewer class.
     """
 
     def __init__(self, model: RunnableSerializable = DEFAULT_MODEL) -> None:
@@ -151,6 +151,6 @@ class Reviewer(Runnable[LanguageDetectionInput, Recommendations]):
                 code=input.code,
             )
             output = self.chain.invoke(final_input.model_dump(), config=config)
-        except:
+        except Exception:
             output = Recommendations(recommendations=[], review_result="Failed")
         return output

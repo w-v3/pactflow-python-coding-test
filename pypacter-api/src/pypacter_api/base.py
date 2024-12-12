@@ -23,19 +23,21 @@ router = APIRouter()
 
 class HealthResponse(BaseModel):
     """
-    Model for Healthcheck api response
+    Model for Healthcheck api response.
     """
+
     status: str
 
 
 class VersionResponse(BaseModel):
     """
-    Model for Healthcheck api response
+    Model for Healthcheck api response.
     """
+
     version: str
 
 
-@router.get("/health", response_model=HealthResponse, tags=["health"])
+@router.get("/health", tags=["health"])
 async def health() -> HealthResponse:
     """
     Health check.
@@ -46,7 +48,7 @@ async def health() -> HealthResponse:
     return HealthResponse(status="ok")
 
 
-@router.get("/version", response_model=VersionResponse, tags=["version"])
+@router.get("/version", tags=["version"])
 async def version() -> VersionResponse:
     """
     Get the version of the API.
@@ -85,7 +87,6 @@ def get_reviewer() -> Reviewer:
 
 @router.post(
     "/detect-language",
-    response_model=LanguageDetectionOutput,
     tags=["language detection"],
 )
 async def detect_language(
@@ -105,7 +106,7 @@ async def detect_language(
     return detector.invoke(snippet)
 
 
-@router.post("/code-review", response_model=Recommendations, tags=["Code Review"])
+@router.post("/code-review", tags=["Code Review"])
 async def code_review(
     snippet: LanguageDetectionInput,
     reviewer: Annotated[Reviewer, Depends(get_reviewer)],

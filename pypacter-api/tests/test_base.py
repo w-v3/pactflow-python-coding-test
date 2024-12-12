@@ -19,14 +19,11 @@ app.include_router(router)
 # Mock the external services
 @pytest.fixture
 def mock_detector() -> MagicMock:
-    mock = MagicMock()
-    return mock
-
+    return MagicMock()
 
 @pytest.fixture
 def mock_reviewer() -> MagicMock:
-    mock = MagicMock()
-    return mock
+    return MagicMock()
 
 
 @pytest.fixture
@@ -56,7 +53,7 @@ def test_version(client: TestClient) -> None:
 
 
 # Test the /detect-language endpoint - Success
-def test_detect_language(client: TestClient, mock_detector: MagicMock)-> None:
+def test_detect_language(client: TestClient, mock_detector: MagicMock) -> None:
     """Test successful language detection."""
     # Arrange: Mock the LanguageDetector's invoke method to return a successful output
     mock_detector.invoke.return_value = LanguageDetectionOutput(
@@ -80,7 +77,7 @@ def test_detect_language(client: TestClient, mock_detector: MagicMock)-> None:
 # Test the /code-review endpoint - Success
 def test_code_review(client: TestClient, mock_reviewer: MagicMock) -> None:
     """Test successful code review generation."""
-    # Arrange: Mock the Reviewer’s invoke method to return a successful output
+    # Arrange: Mock the Reviewer invoke method to return a successful output
     mock_reviewer.invoke.return_value = Recommendations(
         recommendation=[],
         review_result="Success",

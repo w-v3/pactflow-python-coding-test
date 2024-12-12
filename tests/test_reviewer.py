@@ -26,13 +26,13 @@ def mock_chain() -> MagicMock:
 @pytest.fixture
 def language_detector() -> MagicMock:
     """Instantiate a LanguageDetector with a mocked model."""
-    # detector = LanguageDetector(mock_model)
-    # detector.chain = mock_chain
     return MagicMock(spec=RunnableSerializable)
 
 
 @pytest.fixture
-def reviewer(language_detector: MagicMock, mock_model: MagicMock, mock_chain: MagicMock) -> Reviewer:
+def reviewer(
+    language_detector: MagicMock, mock_model: MagicMock, mock_chain: MagicMock
+) -> Reviewer:
     """Instantiate a Reviewer with mocked LanguageDetector and model."""
     reviewer = Reviewer(model=mock_model)
     reviewer.language_detector = language_detector
@@ -41,7 +41,7 @@ def reviewer(language_detector: MagicMock, mock_model: MagicMock, mock_chain: Ma
 
 
 def test_code_review_success_no_recommendations(
-    reviewer: Reviewer, mock_chain: MagicMock, language_detector: MagicMock, mock_model: MagicMock
+    reviewer: Reviewer, mock_chain: MagicMock, language_detector: MagicMock
 ) -> None:
     """Test successful code review."""
     # Arrange: Mock the LLM response
@@ -68,7 +68,7 @@ def test_code_review_success_no_recommendations(
 
 
 def test_code_review_success_with_recommendations(
-     reviewer: Reviewer, mock_chain: MagicMock, language_detector: MagicMock, mock_model: MagicMock
+    reviewer: Reviewer, mock_chain: MagicMock, language_detector: MagicMock
 ) -> None:
     """Test successful code review."""
     # Arrange: Mock the LLM response
@@ -99,7 +99,7 @@ def test_code_review_success_with_recommendations(
 
 
 def test_code_review_no_language_detection(
-    reviewer: Reviewer, mock_chain: MagicMock, language_detector: MagicMock, mock_model: MagicMock
+    reviewer: Reviewer, mock_chain: MagicMock, language_detector: MagicMock
 ) -> None:
     """Test successful code review."""
     # Arrange: Mock the LLM response
@@ -127,7 +127,7 @@ def test_code_review_no_language_detection(
 
 
 def test_code_review_multiple_language_detection(
-    reviewer: Reviewer, mock_chain: MagicMock, language_detector: MagicMock, mock_model: MagicMock
+    reviewer: Reviewer, mock_chain: MagicMock, language_detector: MagicMock
 ) -> None:
     """Test successful code review."""
     # Arrange: Mock the LLM response
@@ -155,7 +155,7 @@ def test_code_review_multiple_language_detection(
 
 
 def test_code_review_chain_invocation_error(
-    reviewer: Reviewer, mock_chain: MagicMock, language_detector: MagicMock, mock_model: MagicMock
+    reviewer: Reviewer, mock_chain: MagicMock, language_detector: MagicMock
 ) -> None:
     """Test code review when LLM chain fails."""
     # Arrange: Mock the language detector to raise an exception
@@ -183,7 +183,7 @@ def test_code_review_chain_invocation_error(
 
 
 def test_code_review_language_detection_failure(
-   reviewer: Reviewer, mock_chain: MagicMock, language_detector: MagicMock, mock_model: MagicMock
+    reviewer: Reviewer, mock_chain: MagicMock, language_detector: MagicMock
 ) -> None:
     """Test code review when language detection fails."""
     # Arrange: Mock the language detector to raise an exception
@@ -216,7 +216,9 @@ def test_code_review_invalid_input(reviewer: Reviewer) -> None:
 
 
 def test_code_review_no_input(
-    reviewer: Reviewer, mock_model: MagicMock, mock_chain: MagicMock, language_detector: MagicMock
+    reviewer: Reviewer,
+    mock_chain: MagicMock,
+    language_detector: MagicMock,
 ) -> None:
     mock_chain.invoke.return_value = Recommendations(
         recommendations=[], review_result="Success"
