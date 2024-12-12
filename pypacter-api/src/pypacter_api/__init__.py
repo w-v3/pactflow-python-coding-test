@@ -10,6 +10,7 @@ import os
 import socket
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from pypacter_api.__version__ import __version__, __version_tuple__
 
@@ -84,10 +85,23 @@ def local() -> None:
         description="Development version of PyPacter API.",
         version=__version__,
     )
-    local_app.include_router(pypacter_api.base.router, prefix="/")
 
+    # CORS Configuration
+    local_app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],  # Change this to specific origins in production deployment
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    local_app.include_router(pypacter_api.base.router, prefix="")
     uvicorn.run(
         local_app,
         host=os.getenv("PYPACTER_DEV_HOST", "localhost"),
         port=int(os.getenv("PYPACTER_DEV_PORT", str(_find_free_port()))),
     )
+
+
+if __name__ == "__main__":
+    local()

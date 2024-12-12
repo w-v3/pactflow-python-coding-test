@@ -17,6 +17,7 @@ from langchain_core.prompts import (
 from langchain_core.runnables import Runnable, RunnableConfig, RunnableSerializable
 from pydantic import BaseModel, Field
 
+from pypacter.language_detector import LanguageDetectionInput, LanguageDetector
 from pypacter.models import DEFAULT_MODEL
 
 _DIR = Path(__file__).parent
@@ -30,14 +31,21 @@ CODE_TEMPLATE = HumanMessagePromptTemplate.from_template_file(
 )
 
 
-class Input(BaseModel):
+class ReviewerLLMInput(BaseModel):
     """
-    Input for the LLM.
+    Input for the Reviewer LLM.
     """
 
     code: str = Field(
         description="The code snippet to verify.",
     )
+    language: str = Field(
+        default="unknown", description="The detected programming language."
+    )
+    confidence: float = Field(
+        0.0, description="The confidence score of the language detection."
+    )
+    summary: str = Field(..., description="summary of the language detection process")
 
 
 class Recommendation(BaseModel):
@@ -60,23 +68,30 @@ class Recommendations(BaseModel):
     """
     Output for the LLM.
 
-    This is a list of recommendations for the code snippet.
+    This is the output model for code reviewer.
     """
 
     recommendations: list[Recommendation] = Field(
+        default=[],
         description="The issues identified in the code snippet.",
+    )
+    review_result: typing.Literal["Success", "Failed"] = Field(
+        description="Describes if the code snippet was reviewed or not"
     )
 
 
-class Reviewer(Runnable[Input, Recommendations]):
+class Reviewer(Runnable[LanguageDetectionInput, Recommendations]):
     """
-    Code reviewer.
+    Code reviewer class
     """
 
-    def __init__(self) -> None:
+    def __init__(self, model: RunnableSerializable = DEFAULT_MODEL) -> None:
         """
         Instantiates a new code reviewer.
         """
+        self.language_detector = LanguageDetector()
+        self.model = model
+
         parser: PydanticOutputParser[Recommendations] = PydanticOutputParser(
             pydantic_object=Recommendations
         )
@@ -86,15 +101,15 @@ class Reviewer(Runnable[Input, Recommendations]):
         )
         self.chain = typing.cast(
             RunnableSerializable[dict[str, str], Recommendations],
-            self.prompt_template | DEFAULT_MODEL | parser,
+            self.prompt_template | self.model | parser,
         )
 
     @property
-    def InputType(self) -> type[Input]:  # noqa: N802
+    def InputType(self) -> type[LanguageDetectionInput]:  # noqa: N802
         """
         The input type for the code reviewer.
         """
-        return Input
+        return LanguageDetectionInput
 
     @property
     def OutputType(self) -> type[Recommendations]:  # noqa: N802
@@ -105,7 +120,7 @@ class Reviewer(Runnable[Input, Recommendations]):
 
     def invoke(
         self,
-        input: Input | dict[str, str],
+        input: LanguageDetectionInput | dict[str, str],
         config: RunnableConfig | None = None,
         **kwargs: Any,  # noqa: ANN401, ARG002
     ) -> Recommendations:
@@ -125,6 +140,17 @@ class Reviewer(Runnable[Input, Recommendations]):
             The generated code snippet.
         """
         if isinstance(input, dict):
-            input = Input(**input)
+            input = LanguageDetectionInput(**input)
 
-        return self.chain.invoke(input.model_dump(), config=config)
+        try:
+            result = self.language_detector.invoke(input)
+            final_input = ReviewerLLMInput(
+                language=result.language,
+                confidence=result.confidence,
+                summary=result.result + result.message,
+                code=input.code,
+            )
+            output = self.chain.invoke(final_input.model_dump(), config=config)
+        except:
+            output = Recommendations(recommendations=[], review_result="Failed")
+        return output

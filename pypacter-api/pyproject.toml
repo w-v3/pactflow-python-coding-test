@@ -6,8 +6,8 @@ name        = "pypacter-api"
 description = "API for PyPacter"
 dynamic     = ["version"]
 
-authors     = [{ name = "JP-Ellis", email = "josh@jpellis.me" }]
-maintainers = [{ name = "JP-Ellis", email = "josh@jpellis.me" }]
+authors     = [{ name = "w-v3", email = "vaibhav.official.0786@gmail.com" }]
+maintainers = [{ name = "w-v3", email = "vaibhav.official.0786@gmail.com" }]
 
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -35,7 +35,9 @@ dependencies = [
   "fastapi~=0.0",
   "multidict~=6.0",
   "pypacter",
+  "uvicorn",
 ]
+
 
 [project.urls]
 Documentation = "https://github.com/pactflow/pactflow-python-coding-test/tree/main/pypacter-api"
@@ -67,7 +69,7 @@ raw-options = { root = ".." }
 [tool.hatch.build.hooks.vcs]
 version-file = "src/pypacter_api/__version__.py"
 
-[tool.hatch.envs.default]
+[tool.hatch.envs.api]
 installer = "uv"
 features = ["devel"]
 # This is require to get around an incompatibility between hatch and uv
@@ -75,12 +77,13 @@ features = ["devel"]
 pre-install-commands = ["uv pip install .[devel]"]
 
 
-[tool.hatch.envs.default.scripts]
+[tool.hatch.envs.api.scripts]
 lint       = "ruff check --output-format full --show-fixes {args} src tests"
 typecheck  = "mypy . {args}"
 format     = "ruff format . {args}"
 test       = "pytest tests/ {args}"
 all        = ["format", "lint", "typecheck", "test"]
+#run        = python -m src/pypacter_api/__init__
 
 [tool.hatch.envs.test]
 installer = "uv"
@@ -94,7 +97,7 @@ pre-install-commands = ["uv pip install .[devel-test]"]
 ################################################################################
 
 [tool.ruff]
-extend         = "../pyproject.toml"
+extend = "../pyproject.toml"
 
 [tool.ruff.format]
 preview = true

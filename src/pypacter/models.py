@@ -19,7 +19,6 @@ A lower temperature will cause the model to make more likely, but also more
 boring and conservative predictions. A high temperature on the other hand will
 generate more creative but also more unpredictable outputs.
 """
-
 GPT_4 = ChatOpenAI(temperature=TEMPERATURE, model="gpt-4o")
 """
 OpenAI's GPT-4 model.

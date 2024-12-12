@@ -13,7 +13,8 @@ You are a code reviewer. You have been asked to review some code. Generate outpu
             "severity": "warning",
             "message": "..."
         }}
-    ]
+    ],
+    "review_result":"Success"
 }}
 ```
 
@@ -24,5 +25,7 @@ You must review the following aspects of the code:
 -   Syntax: Does the code follow the syntax of the language?
 
 Only include items which are a warning or an error. If the code has no major issues, return an empty list.
+review_result should always be returned as "Success"
+
 
 {format_instructions}

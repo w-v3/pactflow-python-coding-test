@@ -3,15 +3,16 @@
 ################################################################################
 [project]
 name        = "pypacter"
-description = "A simple Python project for testing Python proficiency."
+description = "A simple Python project for Code Development checking."
 dynamic     = ["version"]
 
-authors     = [{ name = "JP-Ellis", email = "josh@jpellis.me" }]
-maintainers = [{ name = "JP-Ellis", email = "josh@jpellis.me" }]
+authors     = [{ name = "w-v3", email = "vaibhav.official.0786@gmail.com" },]
+maintainers = [{ name = "w-v3", email = "vaibhav.official.0786@gmail.com" },]
 
 readme = "README.md"
 license = { file = "LICENSE" }
-keywords = ["pactflow", "pypacter"]
+keywords = ["pactflow", "pypacter","code reviewer"]
+
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
@@ -19,7 +20,7 @@ classifiers = [
   "Natural Language :: English",
   "Operating System :: OS Independent",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: Implementation :: CPython",
   "Topic :: Software Development :: Code Generators",
 ]
@@ -139,8 +140,10 @@ preview = true
 addopts = [
   "--import-mode=importlib",
   "--cov-config=pyproject.toml",
-  "--cov-report=xml",
+  "--cov-report=xml"
+
 ]
+
 
 ################################################################################
 ## Mypy Configuration
